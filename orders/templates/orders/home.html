@@ -1,0 +1,21 @@
+{% extends "orders/base.html" %}
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+    
+    <section class="showcase">
+        {% if user.is_authenticated %}
+            <h1 class="welcome">Hello,{{ user.username }}!</h1>
+            <h2 class="showcase-text-1">Welcome to the home of the best pizza and subs</h2>
+            <p class="showcase-text-2">SKIP THE LINE, ORDER ONLINE</p>
+            <a id="menu-btn" class="btn btn-outline-warning btn-lg" href="{% url 'menu' %}">Order</a>
+        {% else %}
+            <h1 class="welcome">WELCOME</h1>
+            <h2 class="showcase-text-1">Home of the best pizza and subs</h2>
+            <h6 class="showcase-text-2">SKIP THE LINE, ORDER ONLINE</h6> 
+        {% endif %}
+    </section>
+    <footer>&copy; Copyright 2020 Dragan Dobrijević</footer>
+    
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "orders/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %} Register {% endblock %}
+
+{% block body %}
+
+    {% if message %}
+        <div>
+            {{ message }}
+        </div>
+    {% endif %}
+    
+    <div class="background-img">
+    <div class="container">
+        <form class="center_div" id="register-form" method="POST">
+            {% csrf_token %}
+            <h2 class="magic">Join Today</h2>
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-primary">Sign Up</button>
+            <small class="ml-2">
+                Already Have An Account? <a href="{% url 'login' %}">Log In</a>
+            </small>
+        </form>
+    </div>
+    </div>
+{% endblock %}

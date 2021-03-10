@@ -1,0 +1,151 @@
+{% extends "orders/base.html" %}
+
+{% block title %} Menu {% endblock %}
+
+{% block body %}
+<div id="menu">
+    <section id="menu-left">
+        <h2>Our Menu</h2>
+        <hr>
+        <h3>Regular Pizza</h3>
+        <ul>
+            {% for pizza in r_pizza %} 
+                <li><a href="{% url 'regular_pizza' pizza.id %}">{{ pizza }}</a></li>    
+            {% endfor %}
+        </ul>
+
+        <h3>Sicilian Pizza</h3>
+        <ul>
+            {% for pizza in s_pizza %} 
+                <li><a href="{% url 'sicilian_pizza' pizza.id %}">{{ pizza }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3>Toppings</h3>
+        <ul>
+            {% for topping in toppings %} 
+                <li>{{ topping }}</li>    
+            {% endfor %}
+        </ul>
+
+        <h3>Subs</h3>
+        <ul>
+            {% for sub in subs %} 
+                <li><a href="{% url 'subs' sub.id %}">{{ sub }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h3>Pasta</h3>
+        <ul>
+            {% for pasta in pastas %} 
+                <li><a href="{% url 'pasta' pasta.id %}">{{ pasta }}</a></li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Salads</h3>
+        <ul>
+            {% for salad in salads %} 
+                <li><a href="{% url 'salad' salad.id %}">{{ salad }}</a></li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Dinner Platters</h3>
+        <ul>
+            {% for platter in platters %} 
+                <li><a href="{% url 'platters' platter.id %}">{{ platter }}</a></li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <section id="order-form">
+        {% if food == 'pizza' and pizza == 'regular' %}
+            <h3>Regular Pizza - {{ click }}</h3>
+        {% endif %}
+
+        {% if food == 'pizza' and pizza == 'sicilian' %}
+            <h3>Sicilian Pizza - {{ click }}</h3>
+        {% endif %}
+
+        <form action="{% url 'cart' %}" method="POST">
+            {% csrf_token %}
+            {% if food == 'pizza' %}
+            <div class="form-group">
+                {% if hide %}
+                <p>Select size:</p>
+                <input type="radio" name="size" value="small"> Small<br>
+                <input type="radio" name="size" value="large"> Large<br>
+                <hr>
+                {% if topp_num != 0 %}
+                {% if topp_num == 5 %}
+                <p>* Special (5 toppings)</p>
+                {% endif %}
+                <label>Toppings: </label>
+                <br>
+                {% for topping in toppings %} 
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name='toppings' value="{{ topping }}">
+                        <label class="form-check-label" for="inlineCheckbox1">{{ topping }}</label>
+                    </div>  
+                {% endfor %} 
+                {% endif %}
+                <hr>
+                <input type="submit" value="Add to Cart" class="btn btn-light">
+                {% endif %}
+            </div>
+
+            {% elif food == 'subs' %}
+            <h3>Sub</h3>
+            <h3>{{ click }}</h3>
+            <div class="form-group">
+                {% if hide %}
+                {% if one_size != True %}
+                <p>Please select size:</p>
+                <input type="radio" name="size" value="small"> Small<br>
+                <input type="radio" name="size" value="large"> Large<br>
+                {% endif %}
+                <hr>
+                {% for s_topping in s_toppings %}
+                    <input type="checkbox" name="extra" value="{{ s_topping }}"> {{ s_topping }} +0.50<br>
+                    <hr>
+                {% endfor %}
+                <input type="submit" value="Add to Cart" class="btn btn-light">
+                {% endif %}
+            </div>
+
+            {% elif food == 'pasta' %}
+            <h3>Pasta</h3>
+            <h3>{{ click }}</h3>
+            <div class="form-group">
+                {% if hide %}
+                    <hr>
+                    <input type="submit" value="Add to Cart" class="btn btn-light">
+                {% endif %}
+            </div>
+
+            {% elif food == 'salad' %}
+            <h3>Salad</h3>
+            <h3>{{ click }}</h3>
+            <div class="form-group">
+                {% if hide %}
+                    <hr>
+                    <input type="submit" value="Add to Cart" class="btn btn-light">
+                {% endif %}
+            </div>
+
+            {% elif food == 'platter' %}
+            <h3>Dinner Platter</h3>
+            <h3>{{ click }}</h3>
+            <div class="form-group">
+                {% if hide %}
+                <p>Please select size:</p>
+                <input type="radio" name="size" value="small"> Small<br>
+                <input type="radio" name="size" value="large"> Large<br>
+                <hr>
+                <input type="submit" value="Add to Cart" class="btn btn-light">
+                {% endif %}
+            </div>
+            {% endif %}
+        </form>
+    </section> 
+</div>  
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "orders/base.html" %}
+
+{% block title %} Orders {% endblock %}
+
+{% block body %}
+   
+    <section class="cart">
+        <h2 id="cart">All Orders</h2>
+        <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">User</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Toppings</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in all_orders %} 
+                <tr>
+                    <th scope="row">{{ forloop.counter }}.</th>
+                    <td>{{ item.buyer_name }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.type_p }}</td>
+                    <td>{{ item.size }}</td>
+                    <td>
+                        {% if item.toppings %} 
+                            {{ item.toppings }}
+                        {% else %} - 
+                        {% endif %}
+                    </td>
+                    <td>${{ item.price }}</td>
+                    <td>${{ item.total }}</td>
+                    <td>{{ item.time }}</td>
+                    <td><a href="{% url 'status' item.id %}" class="btn btn-outline-dark">{{ item.status }}</a></td>
+                </tr>
+            {% endfor %}
+            </tbody> 
+        </table> 
+        </div>
+    </section> 
+
+    
+{% endblock %}

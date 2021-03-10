@@ -1,0 +1,33 @@
+{% extends "orders/base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+    {% if message.success %}
+        <div class="alert alert-success">
+            {{ message.success }}
+        </div>
+    {% endif %}
+    
+    <div class="background-img">
+    <div class="container center_div">    
+        <form id="login-form" class="center_div" action="{% url 'login' %}" method="POST">
+            {% csrf_token %}
+            <h2 class="magic">Login</h2>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+                <label for="inputPassword4">Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+            <input type="submit" class="btn btn-outline-primary" value="Log In"/>
+            <small class="ml-2">
+                Need An Account? <a href="{% url 'register' %}">Register Now</a>
+            </small>
+        </form>
+    </div>
+    </div>
+{% endblock %}

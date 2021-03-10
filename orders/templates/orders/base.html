@@ -1,0 +1,60 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'orders/styles.css' %}"/>
+        <script src="{% static 'orders/main.js' %}"></script> 
+        <link href="https://fonts.googleapis.com/css?family=Merienda:700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header class="menu clearfix">
+            <div id="logo">
+                <a href="{% url 'index' %}">Pizza&Subs</a>
+            </div>
+            <nav>
+                <ul id="nav">
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'menu' %}">Menu</a></li>
+                        <li><a href="{% url 'cart' %}">Cart</a></li>
+                        {% if user.is_superuser %}
+                            <li><a href="{% url 'orders' %}">Orders</a></li>
+                        {% else %}
+                            <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                        {% endif %}
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'register' %}">Register</a></li>
+                        <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>  
+        </header>
+        {% if message %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div>
+            {% block body %}   
+            {% endblock %}
+        </div>
+    </body>
+</html>
